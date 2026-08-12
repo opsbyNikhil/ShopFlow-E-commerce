@@ -1,29 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Card, Form, Input, Button, Typography, message } from "antd";
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  Typography,
+  message,
+} from "antd";
 
 import { SafetyOutlined } from "@ant-design/icons";
 
 import axios from "axios";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 function LoginOtp() {
+
   const [loading, setLoading] = useState(false);
+
+  const [resendLoading, setResendLoading] = useState(false);
+
+  const [countdown, setCountdown] = useState(60);
 
   const navigate = useNavigate();
 
   const location = useLocation();
 
   // Get user_id passed from Login page
-
   const userId = location.state?.user_id;
 
+
+  // Countdown timer
+  useEffect(() => {
+
+    if (countdown <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+
+      setCountdown((previous) => previous - 1);
+
+    }, 1000);
+
+    return () => clearInterval(timer);
+
+  }, [countdown]);
+
+
+  // Verify OTP
   const handleVerify = async (values) => {
+
     if (!userId) {
-      message.error("Login session not found. Please login again.");
+
+      message.error(
+        "Login session not found. Please login again."
+      );
 
       navigate("/login");
 
@@ -33,34 +71,92 @@ function LoginOtp() {
     setLoading(true);
 
     try {
+
       const response = await axios.post(
         "http://127.0.0.1:8000/api/auth/verify-login-otp/",
         {
           user_id: userId,
           otp: values.otp,
-        },
+        }
       );
 
-      message.success("OTP verified successfully");
+      message.success(
+        "OTP verified successfully"
+      );
 
-      // IMPORTANT:
-      // Don't generate JWT here.
-      //
-      // Move to password page.
-
+      // Move to password page
       navigate("/login-password", {
         state: {
-          session_token: response.data.session_token,
+          session_token:
+            response.data.session_token,
         },
       });
+
     } catch (error) {
-      message.error(error.response?.data?.message || "Invalid OTP");
+
+      message.error(
+        error.response?.data?.message ||
+        "Invalid OTP"
+      );
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
+
+  // Resend OTP
+  const handleResendOtp = async () => {
+
+    if (!userId) {
+
+      message.error(
+        "Login session not found. Please login again."
+      );
+
+      navigate("/login");
+
+      return;
+    }
+
+    setResendLoading(true);
+
+    try {
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/auth/resend-login-otp/",
+        {
+          user_id: userId,
+        }
+      );
+
+      message.success(
+        response.data.message ||
+        "New OTP sent successfully"
+      );
+
+      // Restart countdown
+      setCountdown(60);
+
+    } catch (error) {
+
+      message.error(
+        error.response?.data?.message ||
+        "Failed to resend OTP"
+      );
+
+    } finally {
+
+      setResendLoading(false);
+
+    }
+  };
+
+
   return (
+
     <div
       style={{
         minHeight: "100vh",
@@ -70,11 +166,13 @@ function LoginOtp() {
         background: "#f5f5f5",
       }}
     >
+
       <Card
         style={{
           width: 400,
         }}
       >
+
         <Title
           level={2}
           style={{
@@ -84,6 +182,7 @@ function LoginOtp() {
           Verify OTP
         </Title>
 
+
         <Text
           style={{
             display: "block",
@@ -91,10 +190,16 @@ function LoginOtp() {
             marginBottom: 25,
           }}
         >
-          Enter the 6-digit OTP sent to your registered email.
+          Enter the 6-digit OTP sent to your
+          registered email.
         </Text>
 
-        <Form layout="vertical" onFinish={handleVerify}>
+
+        <Form
+          layout="vertical"
+          onFinish={handleVerify}
+        >
+
           <Form.Item
             label="OTP"
             name="otp"
@@ -107,8 +212,13 @@ function LoginOtp() {
                 len: 6,
                 message: "OTP must be 6 digits",
               },
+              {
+                pattern: /^[0-9]+$/,
+                message: "OTP must contain only numbers",
+              },
             ]}
           >
+
             <Input
               prefix={<SafetyOutlined />}
               placeholder="Enter 6-digit OTP"
@@ -116,7 +226,9 @@ function LoginOtp() {
               size="large"
               inputMode="numeric"
             />
+
           </Form.Item>
+
 
           <Button
             type="primary"
@@ -127,8 +239,42 @@ function LoginOtp() {
           >
             Verify OTP
           </Button>
+
+
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 20,
+            }}
+          >
+
+            <Text>
+              Didn't receive the OTP?
+            </Text>
+
+
+            <br />
+
+
+            <Button
+              type="link"
+              loading={resendLoading}
+              disabled={countdown > 0}
+              onClick={handleResendOtp}
+            >
+
+              {countdown > 0
+                ? `Resend OTP in ${countdown}s`
+                : "Resend OTP"}
+
+            </Button>
+
+          </div>
+
         </Form>
+
       </Card>
+
     </div>
   );
 }

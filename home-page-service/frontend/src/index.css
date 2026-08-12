@@ -1,0 +1,41 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.shopflow-search .ant-input {
+  height: 44px;
+  font-size: 14px;
+  border-color: #d9d9d9;
+  transition: all 0.2s ease;
+}
+
+.shopflow-search .ant-input:hover,
+.shopflow-search .ant-input:focus {
+  border-color: #1677ff;
+}
+
+.shopflow-search .ant-input-search-button {
+  height: 44px !important;
+  border-radius: 0 8px 8px 0 !important;
+  background: #1677ff;
+  border-color: #1677ff;
+  transition: all 0.2s ease;
+}
+
+.shopflow-search .ant-input-search-button:hover {
+  background: #4096ff !important;
+  border-color: #4096ff !important;
+}
+
+.shopflow-search .ant-input-wrapper {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}

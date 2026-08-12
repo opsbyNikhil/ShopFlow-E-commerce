@@ -16,6 +16,15 @@ from django.utils.http import (
     urlsafe_base64_encode,
     urlsafe_base64_decode
 )
+
+from django.core.mail import send_mail
+from django.conf import settings
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+
+from .models import LoginOTP
+
 from django.utils.encoding import force_bytes
 
 from rest_framework.decorators import (
@@ -35,6 +44,8 @@ from .models import (
     LoginOTP,
     LoginSession
 )
+
+
 
 
 # ============================================================
@@ -605,6 +616,113 @@ def verify_login_otp(request):
 
             "session_token":
             str(login_session.session_token)
+        },
+        status=status.HTTP_200_OK
+    )
+
+
+# ============================================================
+# RESEND OTP
+# ============================================================
+
+
+@api_view(["POST"])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def resend_login_otp(request):
+
+    user_id = request.data.get("user_id")
+
+    if not user_id:
+
+        return Response(
+            {
+                "message": "User ID is required"
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+
+        login_otp = LoginOTP.objects.get(
+            user_id=user_id
+        )
+
+    except LoginOTP.DoesNotExist:
+
+        return Response(
+            {
+                "message": "OTP not found. Please login again."
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    # Generate new 6-digit OTP
+    new_otp = str(
+        random.randint(100000, 999999)
+    )
+
+    # Update OTP
+    login_otp.otp = new_otp
+
+    # Reset OTP expiry time
+    login_otp.created_at = timezone.now()
+
+    login_otp.save(
+        update_fields=[
+            "otp",
+            "created_at"
+        ]
+    )
+
+    try:
+
+        # Send email using Resend API
+        email = resend.Emails.send(
+            {
+                "from": settings.RESEND_FROM_EMAIL,
+                "to": [login_otp.user.email],
+                "subject": "Your Login OTP",
+                "html": f"""
+                    <h2>Login OTP</h2>
+
+                    <p>
+                        Your new login OTP is:
+                    </p>
+
+                    <h1>{new_otp}</h1>
+
+                    <p>
+                        This OTP is valid for 10 minutes.
+                    </p>
+
+                    <p>
+                        If you did not request this OTP,
+                        please ignore this email.
+                    </p>
+                """
+            }
+        )
+
+    except Exception as e:
+
+        # If email sending fails,
+        # remove the newly generated OTP
+        # so the old OTP is not accidentally used.
+        login_otp.delete()
+
+        print("Resend email error:", e)
+
+        return Response(
+            {
+                "message": "Failed to send OTP"
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+    return Response(
+        {
+            "message": "New OTP sent successfully"
         },
         status=status.HTTP_200_OK
     )

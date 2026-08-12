@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 
+
 # --------------------------------------------------
 # SECURITY
 # --------------------------------------------------
@@ -180,3 +181,10 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     os.getenv("CORS_ORIGIN", "http://localhost:5173"),
 ]
+
+# --------------------------------------------------
+# EMAIL (RESEND)
+# --------------------------------------------------
+
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL")

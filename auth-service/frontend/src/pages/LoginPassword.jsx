@@ -62,12 +62,11 @@ function LoginPassword() {
 
       message.success("Login successful");
 
-      // Brief success state gives a clear confirmation before the route
-      // change, instead of an abrupt jump to /home.
       setSuccess(true);
+
       setTimeout(() => {
-        navigate("/home");
-      }, 900);
+        window.location.href = "http://localhost:5174/";
+      }, 1000);
     } catch (error) {
       message.error(error.response?.data?.message || "Login failed");
     } finally {
