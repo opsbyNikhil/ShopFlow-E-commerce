@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+echo "Running databsae migrations....."
 python manage.py migrate --noinput
+
+echo "Running static files....."
 python manage.py collectstatic --noinput
-exec gunicorn auth_project.wsgi:application --bind 0.0.0.0:8000
+
+echo "Running Django Server....."
+exec python manage.py runserver 0.0.0.0:8000
