@@ -2,7 +2,7 @@ services:
 
   auth-service:
     build:
-      context: ./auth_service
+      context: .
       dockerfile: Dockerfile
     container_name: auth-backend
     ports:  
