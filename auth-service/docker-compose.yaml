@@ -1,0 +1,27 @@
+services:
+
+  auth-service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    container_name: auth-backend
+    ports:  
+      - "8000:8000"
+    networks:
+      - shopflow-network
+    restart: always
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: shopflow_auth
+      MYSQL_ROOT_PASSWORD: nikhil@97
+    ports:
+      - "3306:3306"
+    networks:
+      - shopflow-network
+    restart:  always
+
+network:
+  shopflow-network:
+    driver: bridge
