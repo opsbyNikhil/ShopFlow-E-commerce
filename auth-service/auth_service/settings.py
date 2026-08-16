@@ -22,7 +22,11 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 #     "127.0.0.1",
 # ]
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "18.142.243.167",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # --------------------------------------------------
@@ -181,8 +185,10 @@ REST_FRAMEWORK = {
 # --------------------------------------------------
 
 CORS_ALLOWED_ORIGINS = [
-    os.getenv("CORS_ORIGIN", "http://localhost:5173"),
+    os.getenv("CORS_ORIGIN", "http://18.142.243.167:5173"),
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # --------------------------------------------------
 # EMAIL (RESEND)
