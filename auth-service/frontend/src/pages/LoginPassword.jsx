@@ -75,7 +75,7 @@ function LoginPassword() {
       setSuccess(true);
 
       setTimeout(() => {
-        window.location.href = FRONTEND_API_URL;
+        window.location.href = `${FRONTEND_API_URL}/home`;
       }, 1000);
     } catch (error) {
       message.error(error.response?.data?.message || "Login failed");
