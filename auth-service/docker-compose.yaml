@@ -5,15 +5,15 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: auth-backend
-    ports:  
+    ports:
       - "8000:8000"
     networks:
       - shopflow-network
     restart: always
     depends_on:
-      - db
+      - db_shopflow_auth
 
-  db:
+  db_shopflow_auth:
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: shopflow_auth
@@ -23,6 +23,19 @@ services:
     networks:
       - shopflow-network
     restart:  always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: auth-frontend
+    ports:
+      - "5174:80"
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_auth
 
 networks:
   shopflow-network:
