@@ -22,11 +22,15 @@ const { Title, Text } = Typography;
 
 function LoginOtp() {
 
+
+
   const [loading, setLoading] = useState(false);
 
   const [resendLoading, setResendLoading] = useState(false);
 
   const [countdown, setCountdown] = useState(60);
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
 
@@ -73,7 +77,7 @@ function LoginOtp() {
     try {
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/verify-login-otp/",
+        `${API_URL}/api/auth/verify-login-otp/`,
         {
           user_id: userId,
           otp: values.otp,
@@ -126,7 +130,7 @@ function LoginOtp() {
     try {
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/resend-login-otp/",
+        `${API_URL}/api/auth/resend-login-otp/`,
         {
           user_id: userId,
         }

@@ -27,6 +27,8 @@ import { useNavigate, Link } from "react-router-dom";
 
 const { Title, Text, Paragraph } = Typography;
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Signup() {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -48,10 +50,16 @@ function Signup() {
     try {
       const { confirm_password, agree, ...payload } = values;
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/signup/",
-        payload,
-      );
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/auth/signup/",
+      //   payload,
+      // );
+
+            const response = await axios.post(
+              `${API_URL}/api/auth/signup/`,
+              payload,
+            );
+
 
       message.success(response.data.message || "Account created successfully");
 

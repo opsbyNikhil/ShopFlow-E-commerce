@@ -15,6 +15,7 @@ function ForgotPassword() {
   const [sent, setSent] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     // Trigger the entrance animation on next paint rather than at initial
@@ -28,7 +29,7 @@ function ForgotPassword() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/forgot-password/",
+        `${API_URL}/api/auth/forgot-password/`,
         values,
       );
 

@@ -14,6 +14,9 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [success, setSuccess] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
+
+
 
   const navigate = useNavigate();
 
@@ -29,7 +32,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/request-login-otp/",
+        `${API_URL}/api/auth/request-login-otp/`,
         {
           login: values.login,
         },

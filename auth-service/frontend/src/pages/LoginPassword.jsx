@@ -18,6 +18,9 @@ function LoginPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+  const FRONTEND_API_URL = import.meta.env.VITE_FRONTEND_URL;
+
   const sessionToken = location.state?.session_token;
   const login = location.state?.login;
 
@@ -49,12 +52,19 @@ function LoginPassword() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/login-password/",
+        `${API_URL}/api/auth/login-password/`,
         {
           session_token: sessionToken,
           password: values.password,
         },
       );
+      // const response = await axios.post(
+      //   "http://127.0.0.1:8000/api/auth/login-password/",
+      //   {
+      //     session_token: sessionToken,
+      //     password: values.password,
+      //   },
+      // );
 
       // Save JWT
       localStorage.setItem("access_token", response.data.access);
@@ -65,7 +75,7 @@ function LoginPassword() {
       setSuccess(true);
 
       setTimeout(() => {
-        window.location.href = "http://localhost:5174/";
+        window.location.href = "FRONTEND_API_URL";
       }, 1000);
     } catch (error) {
       message.error(error.response?.data?.message || "Login failed");

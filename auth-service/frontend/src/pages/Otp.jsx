@@ -21,6 +21,8 @@ function Otp() {
   const [cooldown, setCooldown] = useState(RESEND_COOLDOWN);
   const [form] = Form.useForm();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const location = useLocation();
   const navigate = useNavigate();
   const timerRef = useRef(null);
@@ -53,9 +55,11 @@ function Otp() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/verify-otp/",
-        {
+      // const response = await axios.post(
+      //   `http://127.0.0.1:8000/api/auth/verify-otp/`,
+            const response = await axios.post(`${API_URL}/api/auth/verify-otp/`, {
+
+        
           email: email,
           otp: values.otp,
         },
@@ -86,9 +90,14 @@ function Otp() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/resend-otp/",
+        `${API_URL}/api/auth/resend-otp/`,
         { email },
       );
+
+      //  const response = await axios.post(
+      //    "http://127.0.0.1:8000/api/auth/resend-otp/",
+      //    { email },
+      //  );
 
       message.success(response.data?.message || "OTP resent");
       form.resetFields(["otp"]);

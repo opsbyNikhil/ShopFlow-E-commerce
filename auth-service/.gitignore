@@ -6,6 +6,8 @@ env/
 # Environment variables
 .env
 
+frontend/.env
+
 # Python cache
 __pycache__/
 *.py[cod]
