@@ -40,7 +40,7 @@ class PendingRegistration(models.Model):
 
     password = models.CharField(max_length=255)
 
-    otp = models.CharField(max_length=6)
+    otp = models.CharField(max_length=128)
 
     otp_created_at = models.DateTimeField(auto_now=True)
 
