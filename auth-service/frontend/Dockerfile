@@ -6,9 +6,9 @@ ARG VITE_FRONTEND_URL
 ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_FRONTEND_URL=$VITE_FRONTEND_URL
 
-WORKDIR /auth-frontend
-ADD . /auth-frontend/
+WORKDIR /frontend-auth
+ADD . /frontend-auth/
 RUN npm install && npm run build
 FROM nginx:alpine AS runtime
-COPY --from=build /auth-frontend/dist /usr/share/nginx/html
+COPY --from=build /frontend-auth/dist /usr/share/nginx/html
 EXPOSE 80
