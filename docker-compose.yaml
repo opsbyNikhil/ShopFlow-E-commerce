@@ -67,7 +67,7 @@ services:
       MYSQL_DATABASE: shopflow_home
       MYSQL_ROOT_PASSWORD: nikhil@97
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - shopflow-network
     restart:  always
