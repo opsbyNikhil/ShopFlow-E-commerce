@@ -1,6 +1,5 @@
 services:
-
-# Auth-Backend
+  # Auth-Backend
 
   auth-service-backend:
     build:
@@ -14,7 +13,7 @@ services:
     depends_on:
       - db_shopflow_auth
 
-# Auth-Database-Configuration
+  # Auth-Database-Configuration
 
   db_shopflow_auth:
     image: mysql:8.0
@@ -25,9 +24,11 @@ services:
       - "3306:3306"
     networks:
       - shopflow-network
-    restart:  always
+    volumes:
+      - auth_service_db:/var/libmysql
+    restart: always
 
-# Auth-Frontend
+  # Auth-Frontend
 
   auth-service-frontend:
     build:
@@ -45,7 +46,7 @@ services:
     depends_on:
       - db_shopflow_auth
 
-# Home-Backend
+  # Home-Backend
 
   home-service-backend:
     build:
@@ -59,7 +60,7 @@ services:
     depends_on:
       - db_shopflow_home
 
-# Home-Database-Configuration
+  # Home-Database-Configuration
 
   db_shopflow_home:
     image: mysql:8.0
@@ -70,9 +71,11 @@ services:
       - "3307:3306"
     networks:
       - shopflow-network
-    restart:  always
+    volumes:
+      - home_service_db:/var/libmysql
+    restart: always
 
-# Home-Frontend
+  # Home-Frontend
   home-service-frontend:
     build:
       context: ./home-page-service/frontend
@@ -89,7 +92,8 @@ services:
     depends_on:
       - db_shopflow_home
 
-
+volumes: auth_service_db
+  home_service_db
 
 networks:
   shopflow-network:
