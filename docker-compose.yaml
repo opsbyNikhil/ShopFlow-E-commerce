@@ -93,8 +93,8 @@ services:
       - db_shopflow_home
 
 volumes: 
-  auth_service_db
-  home_service_db
+  auth_service_db:
+  home_service_db:
 
 networks:
   shopflow-network:
