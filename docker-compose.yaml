@@ -20,7 +20,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: shopflow_auth
-      MYSQL_ROOT_PASSWORD: nikhil@97
+      MYSQL_ROOT_PASSWORD: shopflow_auth@12345
     ports:
       - "3306:3306"
     networks:
@@ -34,8 +34,8 @@ services:
       context: ./auth-service/frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://18.142.243.167:8000
-        VITE_FRONTEND_URL: http://18.142.243.167:5173
+        VITE_API_URL: http://54.251.154.110:8000
+        VITE_FRONTEND_URL: http://54.251.154.110:5173
     container_name: auth-frontend
     ports:
       - "5173:80"
@@ -65,7 +65,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: shopflow_home
-      MYSQL_ROOT_PASSWORD: nikhil@97
+      MYSQL_ROOT_PASSWORD: shopflow_home@12345
     ports:
       - "3307:3306"
     networks:
