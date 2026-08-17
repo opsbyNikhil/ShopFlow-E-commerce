@@ -25,7 +25,7 @@ services:
     networks:
       - shopflow-network
     volumes:
-      - auth_service_db:/var/libmysql
+      - auth_service_db:/var/lib/mysql
     restart: always
 
   # Auth-Frontend
@@ -72,7 +72,7 @@ services:
     networks:
       - shopflow-network
     volumes:
-      - home_service_db:/var/libmysql
+      - home_service_db:/var/lib/mysql
     restart: always
 
   # Home-Frontend
@@ -92,7 +92,8 @@ services:
     depends_on:
       - db_shopflow_home
 
-volumes: auth_service_db
+volumes: 
+  auth_service_db
   home_service_db
 
 networks:
