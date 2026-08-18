@@ -33,7 +33,7 @@ const handleLogout = () => {
   message.success("Logged out successfully");
 
   setTimeout(() => {
-    window.location.href = "http://localhost:5173/login";
+    window.location.href = `${import.meta.env.VITE_AUTH_FRONTEND_URL}/login`;
   }, 500);
 };
 
@@ -63,7 +63,7 @@ function Header() {
         size={10}
         style={{ cursor: "pointer" }}
         onClick={() => {
-          window.location.href = "http://localhost:5174/";
+          window.location.href = import.meta.env.VITE_FRONTEND_URL;
         }}
       >
         <div
@@ -109,7 +109,7 @@ function Header() {
             (e.currentTarget.style.background = "transparent")
           }
           onClick={() => {
-            window.location.href = "http://localhost:5175/products";
+            window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products`;
           }}
         >
           Products
@@ -165,7 +165,7 @@ function Header() {
               marginLeft: 8,
             }}
             onClick={() => {
-              window.location.href = "http://localhost:5176/";
+              window.location.href = import.meta.env.VITE_CART_FRONTEND_URL;
             }}
           >
             Cart
