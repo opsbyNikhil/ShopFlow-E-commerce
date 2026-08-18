@@ -8,7 +8,7 @@ services:
     environment:
       - SECRET_KEY=django-insecure-2-jwrm$v@8vx&o7=zaa+-62zme=7qjr@()(mgwj)7xw=7rw(bi
       - DEBUG=True
-      - DB_NAME=shopflow_auth
+      - DB_NAME=db_shopflow_auth
       - DB_USER=root
       - DB_PASSWORD=shopflow_auth@12345
       - DB_HOST=db_shopflow_auth
@@ -70,7 +70,7 @@ services:
     environment:
       - SECRET_KEY=django-insecure-w2152-(0qht_8c^#vilr$33l@a3q=dz%vpl36ew)@=a^f43&b0
       - DEBUG=True
-      - DB_NAME=shopflow_home
+      - DB_NAME=db_shopflow_home
       - DB_USER=root
       - DB_PASSWORD=shopflow_home@12345
       - DB_HOST=db_shopflow_home
