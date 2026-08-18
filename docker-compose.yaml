@@ -6,17 +6,9 @@ services:
       context: ./auth-service/
       dockerfile: Dockerfile
     environment:
-      - SECRET_KEY=django-insecure-2-jwrm$v@8vx&o7=zaa+-62zme=7qjr@()(mgwj)7xw=7rw(bi
-      - DEBUG=True
-      - DB_NAME=shopflow_auth
-      - DB_USER=root
-      - DB_PASSWORD=shopflow_auth@12345
-      - DB_HOST=db_shopflow_auth
-      - DB_PORT=3306
-      - FRONTEND_UR=http://54.251.154.110:5173/
       - CORS_ORIGIN=http://54.251.154.110:5173
-      - RESEND_API_KEY=${RESEND_API_KEY}
-      - RESEND_FROM_EMAIL=onboarding@resend.dev
+    env_file:
+      - ./auth-service/.env
     ports:
       - "8000:8000"
     networks:
@@ -68,16 +60,9 @@ services:
     ports:
       - "8001:8001"
     environment:
-      - SECRET_KEY=django-insecure-w2152-(0qht_8c^#vilr$33l@a3q=dz%vpl36ew)@=a^f43&b0
-      - DEBUG=True
-      - DB_NAME=shopflow_home
-      - DB_USER=root
-      - DB_PASSWORD=shopflow_home@12345
-      - DB_HOST=db_shopflow_home
-      - DB_PORT=3306
       - FRONTEND_URL=http://54.251.154.110:5173
-      - RESEND_API_KEY=${RESEND_API_KEY}
-      - RESEND_FROM_EMAIL=onboarding@resend.dev
+    env_file:
+      - ./home-page-service/.env
     networks:
       - shopflow-network
     restart: always
