@@ -37,6 +37,6 @@ ADD . /frontend-orders/
 RUN npm install && npm run build
 
 FROM nginx:alpine AS runtime
-COPY --from=build /frontend-carts/dist /usr/share/nginx/html
+COPY --from=build /frontend-orders/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
