@@ -34,7 +34,7 @@ const handleLogout = () => {
   localStorage.removeItem("refresh_token");
   message.success("Logged out successfully");
   setTimeout(() => {
-    window.location.href = `${import.meta.env.VITE_AUTH_FRONTEND_URL}`/login;
+    window.location.href = `${import.meta.env.VITE_AUTH_FRONTEND_URL}/login`;
   }, 500);
 };
 

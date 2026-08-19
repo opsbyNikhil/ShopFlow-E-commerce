@@ -124,7 +124,7 @@ function Home() {
   const handleSearch = (value) => {
     if (!value) return;
 
-    window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/products?search=${encodeURIComponent(value)}`;
+    window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products?search=${encodeURIComponent(value)}`;
   };
 
   // ------------------------------------------------
@@ -315,7 +315,7 @@ function Home() {
                 <CategoryCard
                   category={category}
                   onClick={() =>
-                    (window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/products?category=${category.id}`)
+                    (window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products?category=${category.id}`)
                   }
                 />
               </Col>
