@@ -137,21 +137,17 @@ services:
     build:
       context: ./product-service/frontend/
       dockerfile: Dockerfile
-    args:
-
-    # Backend 
-      
-      VITE_AUTH_API_URL: http://54.251.154.110:8000
-      VITE_HOME_API_URL: http://54.251.154.110:8001
-      VITE_PRODUCT_API_URL: http://54.251.154.110:8002
-      VITE_CART_API_URL: http://54.251.154.110:8003
-
-    # Frontend
-
-      VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
-      VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
-      VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
-      VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
+      args:
+      # Backend 
+        VITE_AUTH_API_URL: http://54.251.154.110:8000
+        VITE_HOME_API_URL: http://54.251.154.110:8001
+        VITE_PRODUCT_API_URL: http://54.251.154.110:8002
+        VITE_CART_API_URL: http://54.251.154.110:8003
+      # Frontend
+        VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
+        VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
+        VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
+        VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
     container_name: product-frontend
     ports:
       - "5175:80"
@@ -199,16 +195,12 @@ services:
       context: ./cart-service/frontend/
       dockerfile: Dockerfile
       args:
-
       # Backend 
-          
         VITE_AUTH_API_URL: http://54.251.154.110:8000
         VITE_HOME_API_URL: http://54.251.154.110:8001
         VITE_PRODUCT_API_URL: http://54.251.154.110:8002
         VITE_CART_API_URL: http://54.251.154.110:8003
-
       # Frontend
-
         VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
         VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
         VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
@@ -260,24 +252,18 @@ services:
       context: ./order-service/frontend/
       dockerfile: Dockerfile
       args:
-
       # Backend 
-          
         VITE_AUTH_API_URL: http://54.251.154.110:8000
         VITE_HOME_API_URL: http://54.251.154.110:8001
         VITE_PRODUCT_API_URL: http://54.251.154.110:8002
         VITE_CART_API_URL: http://54.251.154.110:8003
         VITE_ORDER_API_URL: http://54.251.154.110:8004
-
-
       # Frontend
-
         VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
         VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
         VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
         VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
         VITE_ORDER_FRONTEND_URL: http://54.251.154.110:8004
-
     container_name: cart-frontend
     ports:
       - "5177:80"
