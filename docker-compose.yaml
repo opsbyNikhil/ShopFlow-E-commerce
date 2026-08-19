@@ -109,7 +109,7 @@ services:
     ports:
       - "8002:8002"
     env_file:
-      - ./home-page-service/.env
+      - ./product-service/.env
     environment:
       - FRONTEND_URL=http://54.251.154.110:5173
     networks:
@@ -125,7 +125,7 @@ services:
       MYSQL_DATABASE: shopflow_products
       MYSQL_ROOT_PASSWORD: shopflow_products@12345
     ports:
-      - "3008:3007"
+      - "3008:3006"
     networks:
       - shopflow-network
     volumes:
@@ -182,7 +182,7 @@ services:
       MYSQL_DATABASE: shopflow_cart
       MYSQL_ROOT_PASSWORD: shopflow_cart@12345
     ports:
-      - "3009:3008"
+      - "3009:3006"
     networks:
       - shopflow-network
     volumes:
@@ -231,7 +231,7 @@ services:
     depends_on:
       - db_shopflow_orders
   
-  # Cart-Database-Configuration
+  # Order-Database-Configuration
 
   db_shopflow_orders:
     image: mysql:8.0
@@ -239,7 +239,7 @@ services:
       MYSQL_DATABASE: shopflow_orders
       MYSQL_ROOT_PASSWORD: shopflow_orders@12345
     ports:
-      - "3010:3009"
+      - "3010:3006"
     networks:
       - shopflow-network
     volumes:
