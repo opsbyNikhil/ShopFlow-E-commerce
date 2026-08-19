@@ -33,9 +33,9 @@ const { useBreakpoint } = Grid;
 const userId = 1;
 
 // API URLs
-const CART_API = `http://127.0.0.1:8003/api/cart/${userId}/`;
-const ORDER_API = "http://127.0.0.1:8004/api/orders/create/";
-const ADDRESS_API = "http://127.0.0.1:8004/api/orders/delivery-address/";
+const CART_API = `${import.meta.env.VITE_CART_API_URL}/api/cart/${userId}/`;
+const ORDER_API = `${import.meta.env.VITE_ORDER_API_URL}/api/orders/create/`;
+const ADDRESS_API = `${import.meta.env.VITE_ORDER_API_URL}/api/orders/delivery-address/`;
 
 function Checkout() {
   const navigate = useNavigate();
@@ -169,7 +169,10 @@ function Checkout() {
             <Button
               type="primary"
               icon={<ShoppingOutlined />}
-              onClick={() => navigate("/products")}
+              onClick={() => {
+                window.location.href =
+                  import.meta.env.VITE_PRODUCT_FRONTEND_URL;
+              }}
             >
               Continue Shopping
             </Button>
@@ -192,13 +195,11 @@ function Checkout() {
   // GO TO DELIVERY ADDRESS
   // ------------------------------------------------
 
-  const selectDeliveryAddress = () => {
-    navigate("/delivery-address", {
-      state: {
-        selectedAddressId: selectedAddress?.id || null,
-      },
-    });
-  };
+const selectDeliveryAddress = () => {
+  const addressId = selectedAddress?.id || "";
+
+  window.location.href = `${import.meta.env.VITE_ORDER_FRONTEND_URL}/delivery-address?addressId=${addressId}`;
+};
 
   // ------------------------------------------------
   // PLACE ORDER
@@ -209,7 +210,7 @@ function Checkout() {
     if (!selectedAddress?.id) {
       message.warning("Please select a delivery address first");
 
-      navigate("/delivery-address");
+      window.location.href = `${import.meta.env.VITE_ORDER_FRONTEND_URL}/delivery-address`;
 
       return;
     }
@@ -250,18 +251,22 @@ function Checkout() {
       //
       // So use response.data.order when available.
 
-      const createdOrder = response.data.order || response.data;
+     const createdOrder = response.data.order || response.data;
 
-      navigate("/order-success", {
-        state: {
-          order: {
-            ...createdOrder,
-            delivery_address_id: selectedAddress.id,
-          },
-          selectedAddress: selectedAddress,
-          delivery_address_id: selectedAddress.id,
-        },
-      });
+     sessionStorage.setItem(
+       "orderSuccessData",
+       JSON.stringify({
+         order: {
+           ...createdOrder,
+           delivery_address_id: selectedAddress.id,
+         },
+         selectedAddress,
+         delivery_address_id: selectedAddress.id,
+       }),
+     );
+
+     window.location.href = `${import.meta.env.VITE_ORDER_FRONTEND_URL}/order-success`;
+
     } catch (error) {
       console.error("Place order error:", error);
 
@@ -674,7 +679,9 @@ function Checkout() {
               marginTop: 25,
               paddingLeft: 0,
             }}
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              window.location.href = import.meta.env.VITE_CART_FRONTEND_URL;
+            }}
           >
             Back to Cart
           </Button>

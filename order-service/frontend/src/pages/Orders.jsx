@@ -40,7 +40,7 @@ const { Title, Text } = Typography;
 const userId = 1;
 
 // Base URL of your backend/API — used to resolve relative image paths
-const API_BASE = "http://127.0.0.1:8004";
+const API_BASE = `${import.meta.env.VITE_ORDER_API_URL}`;
 
 const resolveImageUrl = (path) => {
   if (!path) return null;
@@ -133,7 +133,7 @@ function Orders() {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8004/api/orders/?user_id=${userId}`,
+        `${import.meta.env.VITE_ORDER_API_URL}/api/orders/?user_id=${userId}`,
       );
       console.log("Orders:", response.data);
       setOrders(response.data);
@@ -233,7 +233,7 @@ function Orders() {
               type="primary"
               icon={<ShoppingOutlined />}
               onClick={() => {
-                window.location.href = "http://localhost:5175/products";
+                window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products`;
               }}
               style={{ marginTop: 16 }}
             >
@@ -479,7 +479,9 @@ function Orders() {
             type="link"
             icon={<ArrowLeftOutlined />}
             style={{ paddingLeft: 0, marginTop: 10 }}
-            onClick={() => navigate("/products")}
+            onClick={() => {
+              window.location.href = import.meta.env.VITE_PRODUCT_FRONTEND_URL;
+            }}
           >
             Continue Shopping
           </Button>

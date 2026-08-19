@@ -31,7 +31,7 @@ const handleLogout = () => {
   message.success("Logged out successfully");
 
   setTimeout(() => {
-    window.location.href = "http://localhost:5173/login";
+    window.location.href = `${import.meta.env.VITE_AUTH_FRONTEND_URL}/login`;
   }, 500);
 };
 
@@ -58,7 +58,7 @@ function Header() {
         size={10}
         style={{ cursor: "pointer" }}
         onClick={() => {
-          window.location.href = "http://localhost:5174/";
+          window.location.href = `${import.meta.env.VITE_HOME_FRONTEND_URL}`;
         }}
       >
         <div
@@ -99,7 +99,7 @@ function Header() {
           icon={<HomeOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5174/";
+            window.location.href = `${import.meta.env.VITE_HOME_FRONTEND_URL}`;
           }}
         >
           Home
@@ -112,7 +112,7 @@ function Header() {
           icon={<ShoppingOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5175/products";
+            window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}products`;
           }}
         >
           Products
@@ -151,7 +151,7 @@ function Header() {
           icon={<OrderedListOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5177/orders";
+            window.location.href = `${import.meta.env.VITE_ORDER_FRONTEND_URL}/orders`;
           }}
         >
           My Orders
@@ -173,7 +173,7 @@ function Header() {
             marginLeft: 8,
           }}
           onClick={() => {
-            window.location.href = "http://localhost:5176/";
+            window.location.href = `${import.meta.env.VITE_CART_FRONTEND_URL}`;
           }}
         >
           Cart

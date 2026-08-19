@@ -18,7 +18,7 @@ function ProductDetails() {
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8002/api/products/${id}/`,
+        `${import.meta.env.VITE_PRODUCT_API_URL}/api/products/${id}/`,
       );
 
       console.log("Product Details:", response.data);
@@ -47,7 +47,7 @@ function ProductDetails() {
     }
 
     // If backend returns /media/products/...
-    return `http://127.0.0.1:8002${image}`;
+    return `${import.meta.env.VITE_PRODUCT_API_URL}${image}`;
   };
 
   const sharedStyles = `
@@ -247,7 +247,9 @@ function ProductDetails() {
             margin: "0 auto",
             justifyContent: "center",
           }}
-          onClick={() => navigate("/products")}
+          onClick={() =>
+            (window.location.href = import.meta.env.VITE_PRODUCT_FRONTEND_URL)
+          }
         >
           <ArrowLeftOutlined />
           Back to Products
@@ -286,7 +288,12 @@ function ProductDetails() {
       >
         {/* BACK BUTTON */}
 
-        <button className="pd-back" onClick={() => navigate("/products")}>
+        <button
+          className="pd-back"
+          onClick={() => {
+            window.location.href = import.meta.env.VITE_PRODUCT_FRONTEND_URL;
+          }}
+        >
           <ArrowLeftOutlined />
           Back to Products
         </button>
@@ -384,17 +391,20 @@ function ProductDetails() {
               disabled={!inStock}
               onClick={async () => {
                 try {
-                  await axios.post(`http://127.0.0.1:8003/api/cart/1/add/`, {
-                    product_id: product.id,
-                    product_name: product.name,
-                    price: product.price,
-                    quantity: 1,
-                  });
+                  await axios.post(
+                    `${import.meta.env.VITE_CART_API_URL}/api/cart/1/add/`,
+                    {
+                      product_id: product.id,
+                      product_name: product.name,
+                      price: product.price,
+                      quantity: 1,
+                    },
+                  );
 
                   message.success("Product added to cart");
 
                   setTimeout(() => {
-                    window.location.href = "http://localhost:5176/";
+                    window.location.href = `${import.meta.env.VITE_CART_FRONTEND_URL}`;
                   }, 500);
                 } catch (error) {
                   console.error("Add to cart error:", error);

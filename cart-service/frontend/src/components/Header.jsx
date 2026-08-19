@@ -30,7 +30,7 @@ const handleLogout = () => {
   message.success("Logged out successfully");
 
   setTimeout(() => {
-    window.location.href = "http://localhost:5173/login";
+    window.location.href = `${import.meta.env.VITE_AUTH_FRONTEND_URL}/login`;
   }, 500);
 };
 
@@ -57,7 +57,7 @@ function Header() {
         size={10}
         style={{ cursor: "pointer" }}
         onClick={() => {
-          window.location.href = "http://localhost:5174/";
+          window.location.href = `${import.meta.env.VITE_HOME_FRONTEND_URL}`;
         }}
       >
         <div
@@ -98,7 +98,7 @@ function Header() {
           icon={<HomeOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5174/";
+            window.location.href = `${import.meta.env.VITE_HOME_FRONTEND_URL}`;
           }}
         >
           Home
@@ -111,7 +111,7 @@ function Header() {
           icon={<ShoppingOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5175/products";
+            window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products`;
           }}
         >
           Products
@@ -124,7 +124,7 @@ function Header() {
           icon={<UserOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5174/profile";
+            window.location.href = "http://localhost:5178/profile";
           }}
         >
           Profile
@@ -137,7 +137,7 @@ function Header() {
           icon={<HeartOutlined style={{ fontSize: 16 }} />}
           style={navButtonStyle}
           onClick={() => {
-            window.location.href = "http://localhost:5174/wishlist";
+            window.location.href = "http://localhost:5179/wishlist";
           }}
         >
           Wishlist
@@ -159,7 +159,7 @@ function Header() {
             marginLeft: 8,
           }}
           onClick={() => {
-            window.location.href = "http://localhost:5176/";
+            window.location.href = `${import.meta.env.VITE_CART_FRONTEND_URL}`;
           }}
         >
           Cart

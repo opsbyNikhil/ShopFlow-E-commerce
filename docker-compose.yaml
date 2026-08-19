@@ -101,9 +101,198 @@ services:
     depends_on:
       - db_shopflow_home
 
+  # Product-Backend
+  product-service-backend:
+    build:
+      context: ./product-service/
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./home-page-service/.env
+    environment:
+      - FRONTEND_URL=http://54.251.154.110:5173
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_products
+
+  # Product-Database-Configuration
+  db_shopflow_products:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: shopflow_products
+      MYSQL_ROOT_PASSWORD: shopflow_products@12345
+    ports:
+      - "3008:3007"
+    networks:
+      - shopflow-network
+    volumes:
+      - product-service-db:/var/lib/mysql
+    restart: always 
+
+  # Product-Frontend
+  product-service-frontend:
+    build:
+      context: ./product-service/frontend/
+      dockerfile: Dockerfile
+    args:
+
+    # Backend 
+      
+      VITE_AUTH_API_URL: http://54.251.154.110:8000
+      VITE_HOME_API_URL: http://54.251.154.110:8001
+      VITE_PRODUCT_API_URL: http://54.251.154.110:8002
+      VITE_CART_API_URL: http://54.251.154.110:8003
+
+    # Frontend
+
+      VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
+      VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
+      VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
+      VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
+    container_name: product-frontend
+    ports:
+      - "5175:80"
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_products
+
+  # Cart-Backend
+  cart-service-backend:
+    build:
+      context: ./cart-service/
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./cart-service/.env
+    environment:
+      - FRONTEND_URL=http://54.251.154.110:5173
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_carts
+  
+  # Cart-Database-Configuration
+
+  db_shopflow_carts:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: shopflow_cart
+      MYSQL_ROOT_PASSWORD: shopflow_cart@12345
+    ports:
+      - "3009:3008"
+    networks:
+      - shopflow-network
+    volumes:
+      - cart-service-db:/var/lib/mysql
+    restart: always 
+
+  # Cart-Frontend
+  cart-service-frontend:
+    build:
+      context: ./cart-service/frontend/
+      dockerfile: Dockerfile
+      args:
+
+      # Backend 
+          
+        VITE_AUTH_API_URL: http://54.251.154.110:8000
+        VITE_HOME_API_URL: http://54.251.154.110:8001
+        VITE_PRODUCT_API_URL: http://54.251.154.110:8002
+        VITE_CART_API_URL: http://54.251.154.110:8003
+
+      # Frontend
+
+        VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
+        VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
+        VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
+        VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
+    container_name: cart-frontend
+    ports:
+      - "5176:80"
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_carts
+
+# Order-Backend
+  order-service-backend:
+    build:
+      context: ./order-service/
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    env_file:
+      - ./order-service/.env
+    environment:
+      - FRONTEND_URL=http://54.251.154.110:5173
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_orders
+  
+  # Cart-Database-Configuration
+
+  db_shopflow_orders:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: shopflow_orders
+      MYSQL_ROOT_PASSWORD: shopflow_orders@12345
+    ports:
+      - "3010:3009"
+    networks:
+      - shopflow-network
+    volumes:
+      - order-service-db:/var/lib/mysql
+    restart: always 
+
+    # Cart-Frontend
+  order-service-frontend:
+    build:
+      context: ./order-service/frontend/
+      dockerfile: Dockerfile
+      args:
+
+      # Backend 
+          
+        VITE_AUTH_API_URL: http://54.251.154.110:8000
+        VITE_HOME_API_URL: http://54.251.154.110:8001
+        VITE_PRODUCT_API_URL: http://54.251.154.110:8002
+        VITE_CART_API_URL: http://54.251.154.110:8003
+        VITE_ORDER_API_URL: http://54.251.154.110:8004
+
+
+      # Frontend
+
+        VITE_AUTH_FRONTEND_URL: http://54.251.154.110:5173
+        VITE_HOME_FRONTEND_URL: http://54.251.154.110:5174
+        VITE_PRODUCT_FRONTEND_URL: http://54.251.154.110:5175
+        VITE_CART_FRONTEND_URL: http://54.251.154.110:5176
+        VITE_ORDER_FRONTEND_URL: http://54.251.154.110:8004
+
+    container_name: cart-frontend
+    ports:
+      - "5177:80"
+    networks:
+      - shopflow-network
+    restart: always
+    depends_on:
+      - db_shopflow_orders
+
 volumes: 
   auth_service_db:
   home_service_db:
+  product-service-db:
+  cart-service-db:
+  order-service-db:
 
 networks:
   shopflow-network:

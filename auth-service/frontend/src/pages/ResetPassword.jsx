@@ -19,7 +19,7 @@ function ResetPassword() {
   const { uid, token } = useParams();
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 
   useEffect(() => {
     // Trigger the entrance animation on next paint rather than at initial
@@ -34,12 +34,15 @@ function ResetPassword() {
     try {
       // const response = await axios.post(
       //   "http://127.0.0.1:8000/api/auth/reset-password/",
-      const response = await axios.post(`${API_URL}/api/auth/reset-password/`, {
-        uid: uid,
-        token: token,
-        old_password: values.old_password,
-        new_password: values.new_password,
-      });
+      const response = await axios.post(
+        `${AUTH_API_URL}/api/auth/reset-password/`,
+        {
+          uid: uid,
+          token: token,
+          old_password: values.old_password,
+          new_password: values.new_password,
+        },
+      );
 
       message.success(response.data.message);
 

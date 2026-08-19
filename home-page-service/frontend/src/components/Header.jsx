@@ -63,7 +63,7 @@ function Header() {
         size={10}
         style={{ cursor: "pointer" }}
         onClick={() => {
-          window.location.href = import.meta.env.VITE_FRONTEND_URL;
+          window.location.href = import.meta.env.VITE_HOME_FRONTEND_URL;
         }}
       >
         <div

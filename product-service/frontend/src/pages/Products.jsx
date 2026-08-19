@@ -4,8 +4,8 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const CART_API = "http://127.0.0.1:8003";
-const userId = 1; // temporary, same pattern used elsewhere
+const CART_API = `${import.meta.env.VITE_CART_API_URL}`;
+const userId = 1; 
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -19,7 +19,9 @@ function Products() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8002/api/products/");
+      const response = await axios.get(
+        `${import.meta.env.VITE_PRODUCT_API_URL}/api/products/`,
+      );
       setProducts(response.data);
     } catch (error) {
       console.error(error);
@@ -43,7 +45,7 @@ function Products() {
       });
 
       message.success(`${product.name} added to cart`);
-      window.location.href = "http://localhost:5176/cart";
+      window.location.href = `${import.meta.env.VITE_CART_FRONTEND_URL}/cart`;
     } catch (error) {
       console.error("Failed to add to cart:", error);
       message.error("Failed to add item to cart");
@@ -254,7 +256,9 @@ function Products() {
               <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
                 <div
                   className="pg-card"
-                  onClick={() => navigate(`/products/${product.id}`)}
+                  onClick={() =>
+                    (window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`)
+                  }
                 >
                   <div className="pg-img-wrap">
                     {product.image ? (
@@ -262,7 +266,7 @@ function Products() {
                         src={
                           product.image.startsWith("http")
                             ? product.image
-                            : `http://127.0.0.1:8002${product.image}`
+                            : `${import.meta.env.VITE_PRODUCT_API_URL}${product.image}`
                         }
                         alt={product.name}
                         onError={(e) => {
@@ -308,7 +312,7 @@ function Products() {
                         className="pg-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/products/${product.id}`);
+                          window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`;
                         }}
                       >
                         View Product

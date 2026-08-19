@@ -36,7 +36,7 @@ function CartItem({
               src={
                 itemImage.startsWith("http")
                   ? itemImage
-                  : `http://127.0.0.1:8002${itemImage}`
+                  : `${import.meta.env.VITE_PRODUCT_API_URL}${itemImage}`
               }
               alt={item.product_name}
               style={{

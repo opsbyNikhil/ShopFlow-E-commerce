@@ -35,7 +35,7 @@ const userId = 1;
 // API URL
 // --------------------------------------------------
 
-const ADDRESS_API = "http://127.0.0.1:8004/api/orders/delivery-address/";
+const ADDRESS_API = `${import.meta.env.VITE_ORDER_API_URL}/api/orders/delivery-address/`;
 
 // --------------------------------------------------
 // COMPONENT
@@ -249,7 +249,10 @@ function OrderSuccess() {
             <Button
               type="primary"
               icon={<ShoppingOutlined />}
-              onClick={() => navigate("/products")}
+              onClick={() => {
+                window.location.href =
+                  import.meta.env.VITE_PRODUCT_FRONTEND_URL;
+              }}
             >
               Continue Shopping
             </Button>

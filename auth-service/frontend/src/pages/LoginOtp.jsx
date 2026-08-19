@@ -30,7 +30,7 @@ function LoginOtp() {
 
   const [countdown, setCountdown] = useState(60);
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 
   const navigate = useNavigate();
 
@@ -77,11 +77,11 @@ function LoginOtp() {
     try {
 
       const response = await axios.post(
-        `${API_URL}/api/auth/verify-login-otp/`,
+        `${AUTH_API_URL}/api/auth/verify-login-otp/`,
         {
           user_id: userId,
           otp: values.otp,
-        }
+        },
       );
 
       message.success(
@@ -130,10 +130,10 @@ function LoginOtp() {
     try {
 
       const response = await axios.post(
-        `${API_URL}/api/auth/resend-login-otp/`,
+        `${AUTH_API_URL}/api/auth/resend-login-otp/`,
         {
           user_id: userId,
-        }
+        },
       );
 
       message.success(

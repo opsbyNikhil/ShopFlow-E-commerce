@@ -18,7 +18,7 @@ function LoginPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
   const FRONTEND_API_URL = import.meta.env.VITE_FRONTEND_URL;
   const HOME_URL = import.meta.env.VITE_HOME_URL; 
 
@@ -52,10 +52,13 @@ function LoginPassword() {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login-password/`, {
-        session_token: sessionToken,
-        password: values.password,
-      });
+      const response = await axios.post(
+        `${AUTH_API_URL}/api/auth/login-password/`,
+        {
+          session_token: sessionToken,
+          password: values.password,
+        },
+      );
       // const response = await axios.post(
       //   "http://127.0.0.1:8000/api/auth/login-password/",
       //   {

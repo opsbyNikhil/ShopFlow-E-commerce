@@ -27,7 +27,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const { Title, Text, Paragraph } = Typography;
 
-const API_URL = import.meta.env.VITE_API_URL;
+const AUTH_API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 function Signup() {
   const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ function Signup() {
       // );
 
             const response = await axios.post(
-              `${API_URL}/api/auth/signup/`,
+              `${AUTH_API_URL}/api/auth/signup/`,
               payload,
             );
 

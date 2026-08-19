@@ -170,7 +170,7 @@ function OrderDetails() {
   const [actionLoading, setActionLoading] = useState(false);
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
-  const API_BASE = "http://127.0.0.1:8004";
+  const API_BASE = `${import.meta.env.VITE_ORDER_API_URL}`;
 
   // Fetch order
   const fetchOrder = async () => {
@@ -565,7 +565,10 @@ function OrderDetails() {
             <Button
               type="primary"
               icon={<ShoppingOutlined />}
-              onClick={() => navigate("/products")}
+              onClick={() => {
+                window.location.href =
+                  import.meta.env.VITE_PRODUCT_FRONTEND_URL;
+              }}
             >
               Continue Shopping
             </Button>

@@ -35,7 +35,7 @@ const { Title, Text } = Typography;
 // Temporary user ID
 const userId = 1;
 
-const ADDRESS_API = "http://127.0.0.1:8004/api/orders/delivery-address/";
+const ADDRESS_API = `${import.meta.env.VITE_ORDER_API_URL}/api/orders/delivery-address/`;
 
 function DeliveryAddress() {
   const navigate = useNavigate();
@@ -633,7 +633,9 @@ function DeliveryAddress() {
               marginTop: 25,
               paddingLeft: 0,
             }}
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              window.location.href = import.meta.env.VITE_CART_FRONTEND_URL;
+            }}
           >
             Back to Cart
           </Button>

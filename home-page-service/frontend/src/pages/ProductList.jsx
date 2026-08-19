@@ -29,7 +29,7 @@ function ProductList() {
 
       const category = searchParams.get("category");
 
-      let url = "http://127.0.0.1:8000/api/home/products/";
+      let url = `${import.meta.env.VITE_AUTH_API_URL}/api/home/products/`;
 
       const params = {};
 
