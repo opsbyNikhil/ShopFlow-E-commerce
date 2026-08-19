@@ -1,5 +1,5 @@
 FROM python: 3.12.14-alpine3.24 
-WORKDIR /shopflow-auth
+WORKDIR /shopflow-cart
 RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     build-essential \
