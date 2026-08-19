@@ -93,14 +93,25 @@ function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response =
-        await axios.get`${import.meta.env.VITE_PRODUCT_API_URL}/api/products`;
+      const response = await axios.get(
+        `${import.meta.env.VITE_PRODUCT_API_URL}/api/products`,
+      );
 
       console.log("Products from Product Service:", response.data);
 
-      setProducts(response.data);
+      const data = response.data;
+
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else if (Array.isArray(data.results)) {
+        setProducts(data.results);
+      } else {
+        console.error("Unexpected products response:", data);
+        setProducts([]);
+      }
     } catch (error) {
       console.error("Failed to load products:", error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -364,91 +375,92 @@ function Home() {
         ) : (
           /* PRODUCTS */
           <Row gutter={[24, 24]}>
-            {products.slice(0, 4).map((product) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
-                <div
-                  style={{
-                    background: "#fff",
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    border: "1px solid #f0f0f0",
-                    cursor: "pointer",
-                    height: "100%",
-                  }}
-                  onClick={() => {
-                    window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`;
-                  }}
-                >
-                  {product.image && (
-                    <img
-                      src={
-                        product.image.startsWith("http")
-                          ? product.image
-                          : `${import.meta.env.VITE_PRODUCT_API_URL}${product.image}`
-                      }
-                      alt={product.name}
-                      style={{
-                        width: "100%",
-                        height: 220,
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
-                  )}
-
-                  <div style={{ padding: 18 }}>
-                    <Text
-                      type="secondary"
-                      style={{
-                        fontSize: 12,
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {product.category}
-                    </Text>
-
-                    <Title
-                      level={4}
-                      style={{
-                        marginTop: 6,
-                        marginBottom: 8,
-                      }}
-                    >
-                      {product.name}
-                    </Title>
-
-                    <Paragraph type="secondary" ellipsis={{ rows: 2 }}>
-                      {product.description}
-                    </Paragraph>
-
-                    <Text strong style={{ fontSize: 20 }}>
-                      ₹{product.price}
-                    </Text>
-
-                    <div style={{ marginTop: 14 }}>
-                      <button
+            {Array.isArray(products) &&
+              products.slice(0, 4).map((product) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
+                  <div
+                    style={{
+                      background: "#fff",
+                      borderRadius: 16,
+                      overflow: "hidden",
+                      border: "1px solid #f0f0f0",
+                      cursor: "pointer",
+                      height: "100%",
+                    }}
+                    onClick={() => {
+                      window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`;
+                    }}
+                  >
+                    {product.image && (
+                      <img
+                        src={
+                          product.image.startsWith("http")
+                            ? product.image
+                            : `${import.meta.env.VITE_PRODUCT_API_URL}${product.image}`
+                        }
+                        alt={product.name}
                         style={{
                           width: "100%",
-                          padding: "10px",
-                          border: "none",
-                          borderRadius: 8,
-                          background: "#1F2A37",
-                          color: "white",
-                          cursor: "pointer",
-                          fontWeight: 600,
+                          height: 220,
+                          objectFit: "cover",
+                          display: "block",
                         }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`;
+                      />
+                    )}
+
+                    <div style={{ padding: 18 }}>
+                      <Text
+                        type="secondary"
+                        style={{
+                          fontSize: 12,
+                          textTransform: "uppercase",
                         }}
                       >
-                        View Product
-                      </button>
+                        {product.category}
+                      </Text>
+
+                      <Title
+                        level={4}
+                        style={{
+                          marginTop: 6,
+                          marginBottom: 8,
+                        }}
+                      >
+                        {product.name}
+                      </Title>
+
+                      <Paragraph type="secondary" ellipsis={{ rows: 2 }}>
+                        {product.description}
+                      </Paragraph>
+
+                      <Text strong style={{ fontSize: 20 }}>
+                        ₹{product.price}
+                      </Text>
+
+                      <div style={{ marginTop: 14 }}>
+                        <button
+                          style={{
+                            width: "100%",
+                            padding: "10px",
+                            border: "none",
+                            borderRadius: 8,
+                            background: "#1F2A37",
+                            color: "white",
+                            cursor: "pointer",
+                            fontWeight: 600,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = `${import.meta.env.VITE_PRODUCT_FRONTEND_URL}/products/${product.id}`;
+                          }}
+                        >
+                          View Product
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-            ))}
+                </Col>
+              ))}
           </Row>
         )}
       </div>
